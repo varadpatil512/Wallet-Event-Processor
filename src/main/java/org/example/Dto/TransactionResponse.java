@@ -2,8 +2,10 @@ package org.example.Dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.Enum.TransactionStatus;
 import org.example.Enum.TransactionType;
 
@@ -12,6 +14,8 @@ import java.util.UUID;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionResponse {
     @NotNull
     private UUID transactionID;

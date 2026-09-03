@@ -57,10 +57,15 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- TestRestTemplate support (Spring Boot 4.x) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-resttestclient</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
         </dependency>
     </dependencies>
 

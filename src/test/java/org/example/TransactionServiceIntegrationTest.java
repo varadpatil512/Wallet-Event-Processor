@@ -148,11 +148,14 @@ class TransactionServiceIntegrationTest {
 
         assertEquals(threadCount, responses.size(), "All 10 requests should have completed");
 
+        responses.forEach(r -> System.out.println("Status: " + r.getStatusCode()
+                + " Body: " + (r.getBody() != null ? r.getBody().getResponse() : "null")));
+
         long successCount = responses.stream()
-                .filter(r -> r.getStatusCode() == HttpStatus.OK)
+                .filter(r -> r.getStatusCode().value() == 200)
                 .count();
         long failureCount = responses.stream()
-                .filter(r -> r.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY)
+                .filter(r -> r.getStatusCode().value() == 422)
                 .count();
 
         assertEquals(5, successCount, "Exactly 5 debits should succeed");
