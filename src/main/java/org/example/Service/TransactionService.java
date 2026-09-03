@@ -22,27 +22,32 @@ public class TransactionService {
 
     private final WalletRepo walletRepository;
     private final TransactionRecordRepo transactionRecordRepository;
+    private final TransactionClaimService transactionClaimService;
 
     @Transactional
     public TransactionResponse processTransaction(TransactionRequest request) {
 
-        TransactionRecord record = new TransactionRecord();
-        record.setTransactionID(request.getTransactionId());
-        record.setUserId(request.getUserId());
-        record.setAmount(request.getAmount());
-        record.setType(request.getType());
-        record.setStatus(TransactionStatus.PROCESSING);
-
+        boolean claimed;
         try {
-            transactionRecordRepository.saveAndFlush(record);
+            transactionClaimService.claim(request);
+            claimed = true;
         } catch (DataIntegrityViolationException ex) {
+            claimed = false;
+        }
 
+
+        if (!claimed) {
             TransactionRecord existing = transactionRecordRepository
                     .findByTransactionID(request.getTransactionId())
                     .orElseThrow(() -> new IllegalStateException(
                             "Duplicate detected but original record not found — should not happen"));
             return buildResponseFromRecord(existing);
         }
+
+        TransactionRecord record = transactionRecordRepository
+                .findByTransactionID(request.getTransactionId())
+                .orElseThrow(() -> new IllegalStateException(
+                        "Claimed record not found immediately after claiming — should not happen"));
 
 
 
