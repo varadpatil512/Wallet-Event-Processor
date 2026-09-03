@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 public class TransactionResponse {
     @NotNull
-    private UUID transID;
+    private UUID transactionID;
 
     private TransactionStatus status;
 

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 public class TransactionRequest {
     @NotNull
-    private UUID transID;
+    private UUID transactionId;
 
     @NotNull
     private UUID userId;
@@ -21,4 +21,5 @@ public class TransactionRequest {
 
     @NotNull
     private TransactionType type;
+
 }
